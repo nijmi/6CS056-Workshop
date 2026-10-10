@@ -10,5 +10,8 @@ class Student extends Model
         'name',
         'email',
         'course',
+        'phone',
+        'address',
+        'date_of_birth',
     ];
 }
