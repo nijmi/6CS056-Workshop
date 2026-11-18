@@ -1,20 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Course Management</title>
-</head>
-<body>
-    <h1>Course Management System</h1>
+<x-layouts.app title="Courses">
 
-    @if(session('success'))
-        <p style="color: green">{{ session('success') }}</p>
-    @endif
+    <h1>Courses</h1>
 
-    <p><a href="{{ route('courses.create') }}">Add New Course</a></p>
-    <p><a href="/students">Student Management</a></p>
+    <a href="{{ route('courses.create') }}" class="btn">
+        Create Course
+    </a>
 
-    <table border="1" cellpadding="8">
+    <table>
         <thead>
             <tr>
                 <th>ID</th>
@@ -22,33 +14,29 @@
                 <th>Duration</th>
                 <th>Fee</th>
                 <th>Difficulty</th>
-                <th>Status</th>
+                <th>Active</th>
                 <th>Actions</th>
             </tr>
         </thead>
+
         <tbody>
             @forelse($courses as $course)
                 <tr>
                     <td>{{ $course->id }}</td>
                     <td>{{ $course->name }}</td>
                     <td>{{ $course->duration }} weeks</td>
-                    <td>{{ $course->fee }}</td>
+                    <td>{{ number_format($course->fee, 2) }}</td>
                     <td>{{ $course->difficulty }}</td>
-                    <td>{{ $course->is_active ? 'Active' : 'Inactive' }}</td>
+                    <td>{{ $course->is_active ? 'Yes' : 'No' }}</td>
+
                     <td>
                         <a href="{{ route('courses.show', $course) }}">View</a>
-                        |
+
                         <a href="{{ route('courses.edit', $course) }}">Edit</a>
 
-                        <form action="{{ route('courses.destroy', $course) }}"
-                              method="POST" style="display:inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                                onclick="return confirm('Delete this course?')">
-                                Delete
-                            </button>
-                        </form>
+                        <x-delete-form
+                            :action="route('courses.destroy', $course)"
+                        />
                     </td>
                 </tr>
             @empty
@@ -58,5 +46,5 @@
             @endforelse
         </tbody>
     </table>
-</body>
-</html>
+
+</x-layouts.app>

@@ -1,66 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Course</title>
-</head>
-<body>
-    <h1>Add New Course</h1>
+<x-layouts.app title="Create Course">
 
-    @if($errors->any())
-        <ul style="color:red">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    @endif
+    <h1>Create Course</h1>
 
     <form action="{{ route('courses.store') }}" method="POST">
         @csrf
 
-        <p>
-            <label>Course Name:</label><br>
-            <input type="text" name="name"
-                   value="{{ old('name') }}" required>
-        </p>
+        @include('course._form')
 
-        <p>
-            <label>Description:</label><br>
-            <textarea name="description">{{ old('description') }}</textarea>
-        </p>
+        <button type="submit" class="btn">Create Course</button>
 
-        <p>
-            <label>Duration (weeks):</label><br>
-            <input type="number" name="duration"
-                   value="{{ old('duration') }}" min="1" required>
-        </p>
-
-        <p>
-            <label>Fee:</label><br>
-            <input type="number" name="fee"
-                   value="{{ old('fee') }}" min="0" step="0.01" required>
-        </p>
-
-        <p>
-            <label>Difficulty:</label><br>
-            <select name="difficulty" required>
-                <option value="">Select difficulty</option>
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
-            </select>
-        </p>
-
-        <p>
-            <label>
-                <input type="checkbox" name="is_active" value="1" checked>
-                Active course
-            </label>
-        </p>
-
-        <button type="submit">Save Course</button>
+        <a href="{{ route('courses.index') }}">Cancel</a>
     </form>
 
-    <p><a href="{{ route('courses.index') }}">Back to Courses</a></p>
-</body>
-</html>
+</x-layouts.app>
